@@ -2,6 +2,8 @@
 
 namespace ErsoyInsider\NewRelicCustomEvent;
 
+use ErsoyInsider\NewRelicCustomEvent\Events\Event;
+
 /**
  * Class CustomEvent
  * @package NewRelicCustomEvent
