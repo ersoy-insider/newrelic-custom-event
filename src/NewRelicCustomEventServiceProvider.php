@@ -2,12 +2,14 @@
 
 namespace ErsoyInsider\NewrelicCustomEvent;
 
-use ErsoyInsider\NewRelicCustomEvent\Services\NewRelicService;
+use ErsoyInsider\NewrelicCustomEvent\Models\NewRelicConfig;
+use ErsoyInsider\NewrelicCustomEvent\Services\NewRelicDispatcher;
+use ErsoyInsider\NewrelicCustomEvent\Services\NewRelicPostService;
 use Illuminate\Support\ServiceProvider;
 use Ixudra\Curl\CurlService;
 
 /**
- * Class NewRelicCustomEventServiceProvider
+ * Class ServiceProviderTest
  * @package ErsoyInsider\NewRelicCustomEvent
  */
 class NewRelicCustomEventServiceProvider extends ServiceProvider
@@ -20,16 +22,37 @@ class NewRelicCustomEventServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $listens = [
+        'ErsoyInsider\NewrelicCustomEvent\Events\CustomEvent' => [
+            'ErsoyInsider\NewrelicCustomEvent\Listeners\CaptureCustomEvent'
+        ]
+    ];
+
+    /**
      * @return void
      */
     public function boot()
     {
+        $this->setUpListeners();
         $this->setUpConfig();
+    }
+
+    public function setUpListeners()
+    {
+        foreach ($this->listens as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                $this->app['events']->listen($event, $listener);
+            }
+        }
     }
 
     protected function setUpConfig()
     {
-        $source = dirname(__DIR__) . '../config/new-relic-custom-event.php';
+        $source = dirname(__DIR__) . '/config/new-relic-custom-event.php';
         $this->app->configure('new-relic-custom-event');
         $this->mergeConfigFrom($source, 'new-relic-custom-event');
     }
@@ -37,7 +60,26 @@ class NewRelicCustomEventServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('new-relic-custom-event', function ($app) {
-            return new NewRelicService($app['config']->get('new-relic-custom-event.api_key'), new CurlService());
+            return new NewRelicPostService(
+                new NewRelicConfig(
+                    $app['config']['new-relic-custom-event.account_id'],
+                    $app['config']['new-relic-custom-event.api_key']
+                ),
+                new CurlService()
+            );
         });
+
+
+        $this->app->singleton('new-relic-dispatcher', function ($app) {
+            return new NewRelicDispatcher($app['config'], $app['events']);
+        });
+    }
+
+    /**
+     * @return array
+     */
+    public function provides()
+    {
+        return ['new-relic-custom-event', 'new-relic-dispatcher'];
     }
 }

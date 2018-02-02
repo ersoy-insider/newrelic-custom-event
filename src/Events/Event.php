@@ -2,7 +2,11 @@
 
 namespace ErsoyInsider\NewRelicCustomEvent\Events;
 
-class Event
+/**
+ * Class Event
+ * @package ErsoyInsider\NewRelicCustomEvent\Events
+ */
+abstract class Event
 {
 
 }
