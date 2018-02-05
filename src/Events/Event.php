@@ -8,5 +8,4 @@ namespace ErsoyInsider\NewRelicCustomEvent\Events;
  */
 abstract class Event
 {
-
 }
