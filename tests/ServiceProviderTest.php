@@ -30,12 +30,14 @@ class ServiceProviderTest extends TestCase
         Mockery::close();
     }
 
-    public function test_it_provides_new_relic_custom_event()
+    /** @test */
+    public function it_provides_new_relic_custom_event()
     {
         $this->assertContains('new-relic-custom-event', $this->provider->provides());
     }
 
-    public function test_it_provides_new_relic_dispatcher()
+    /** @test */
+    public function it_provides_new_relic_dispatcher()
     {
         $this->assertContains('new-relic-dispatcher', $this->provider->provides());
     }
