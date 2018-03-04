@@ -3,6 +3,7 @@ Simple Library to send custom events to NewRelic Insights
 [![Coverage Status](https://coveralls.io/repos/github/ersoy-insider/newrelic-custom-event/badge.svg?branch=master)](https://coveralls.io/github/ersoy-insider/newrelic-custom-event?branch=master)
 [![Build Status](https://travis-ci.org/ersoy-insider/newrelic-custom-event.svg?branch=master)](https://travis-ci.org/ersoy-insider/newrelic-custom-event)
 [![StyleCI](https://styleci.io/repos/119453321/shield?branch=master)](https://styleci.io/repos/119453321)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ersoy-insider/newrelic-custom-event/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ersoy-insider/newrelic-custom-event/?branch=master)
 
 ## Installation For Lumen
 Require this package with Composer
