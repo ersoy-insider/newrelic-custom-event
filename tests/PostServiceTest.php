@@ -13,7 +13,8 @@ use PHPUnit\Framework\TestCase;
  */
 class PostServiceTest extends TestCase
 {
-    public function test_makes_request_to_new_relic_returns_error()
+    /** @test */
+    public function it_makes_request_to_new_relic_returns_error()
     {
         $app = new Application();
         $app->register(NewRelicCustomEventServiceProvider::class);
